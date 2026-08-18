@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Frontend Masters Subtitle Styler</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="popup-shell">
+      <header class="popup-header">
+        <div>
+          <h1>字幕样式</h1>
+          <p>Frontend Masters 双语字幕</p>
+        </div>
+        <label class="switch-control" for="enabled">
+          <input id="enabled" type="checkbox">
+          <span aria-hidden="true"></span>
+          <strong>启用</strong>
+        </label>
+      </header>
+
+      <section class="preview-panel" aria-labelledby="preview-title">
+        <div class="section-heading">
+          <h2 id="preview-title">实时预览</h2>
+          <span id="status" role="status" aria-live="polite"></span>
+        </div>
+        <div id="previewStage" class="preview-stage">
+          <div id="previewStack" class="preview-stack">
+            <span id="chinesePreview">这是一行中文翻译字幕</span>
+            <span id="englishPreview">This is the original English caption.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="order-title">
+        <h2 id="order-title">中文字幕位置</h2>
+        <div class="segmented" role="radiogroup" aria-label="中文字幕位置">
+          <label>
+            <input type="radio" name="subtitleOrder" value="zh-first">
+            <span>中文在上</span>
+          </label>
+          <label>
+            <input type="radio" name="subtitleOrder" value="en-first">
+            <span>中文在下</span>
+          </label>
+        </div>
+        <div class="field-row compact-row">
+          <label for="subtitleGap">间距</label>
+          <div class="range-number">
+            <input id="subtitleGapRange" type="range" min="0" max="48" step="1" data-for="subtitleGap">
+            <div class="unit-input">
+              <input id="subtitleGap" type="number" min="0" max="48" step="1" value="4">
+              <span>px</span>
+            </div>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="containerBackgroundColor">整体背景</label>
+          <input id="containerBackgroundColor" type="color" value="#000000">
+        </div>
+        <div class="field-row">
+          <label for="containerBackgroundOpacity">整体透明度</label>
+          <div class="range-number">
+            <input id="containerBackgroundOpacityRange" type="range" min="0" max="100" step="1" data-for="containerBackgroundOpacity">
+            <div class="unit-input">
+              <input id="containerBackgroundOpacity" type="number" min="0" max="100" step="1" value="60">
+              <span>%</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="english-title">
+        <div class="section-heading">
+          <h2 id="english-title">英文原字幕</h2>
+          <button class="link-button" type="button" data-sync="english-to-chinese">同步到中文</button>
+        </div>
+        <div class="field-row">
+          <label for="englishColor">颜色</label>
+          <input id="englishColor" type="color" value="#ffffff">
+        </div>
+        <div class="field-row">
+          <label for="englishWeight">字重</label>
+          <div class="range-number">
+            <input id="englishWeightRange" type="range" min="100" max="900" step="1" data-for="englishWeight">
+            <input id="englishWeight" type="number" min="100" max="900" step="1" value="400">
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="englishFontFamily">字体</label>
+          <input id="englishFontFamily" type="text" value="Inter" placeholder="Inter" list="fontOptions">
+        </div>
+        <div class="field-row">
+          <label for="englishFontSize">大小</label>
+          <div class="range-number">
+            <input id="englishFontSizeRange" type="range" min="8" max="96" step="1" data-for="englishFontSize">
+            <div class="unit-input">
+              <input id="englishFontSize" type="number" min="8" max="96" step="1" value="24">
+              <span>px</span>
+            </div>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="englishBackgroundColor">背景</label>
+          <input id="englishBackgroundColor" type="color" value="#000000">
+        </div>
+        <div class="field-row">
+          <label for="englishBackgroundOpacity">透明度</label>
+          <div class="range-number">
+            <input id="englishBackgroundOpacityRange" type="range" min="0" max="100" step="1" data-for="englishBackgroundOpacity">
+            <div class="unit-input">
+              <input id="englishBackgroundOpacity" type="number" min="0" max="100" step="1" value="0">
+              <span>%</span>
+            </div>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="englishStrokeColor">描边</label>
+          <input id="englishStrokeColor" type="color" value="#000000">
+        </div>
+        <div class="field-row">
+          <label for="englishStrokeWidth">描边宽度</label>
+          <div class="range-number">
+            <input id="englishStrokeWidthRange" type="range" min="0" max="12" step="1" data-for="englishStrokeWidth">
+            <div class="unit-input">
+              <input id="englishStrokeWidth" type="number" min="0" max="12" step="1" value="3">
+              <span>px</span>
+            </div>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="englishStrokeOpacity">描边透明</label>
+          <div class="range-number">
+            <input id="englishStrokeOpacityRange" type="range" min="0" max="100" step="1" data-for="englishStrokeOpacity">
+            <div class="unit-input">
+              <input id="englishStrokeOpacity" type="number" min="0" max="100" step="1" value="80">
+              <span>%</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="chinese-title">
+        <div class="section-heading">
+          <h2 id="chinese-title">中文翻译字幕</h2>
+          <button class="link-button" type="button" data-sync="chinese-to-english">同步到英文</button>
+        </div>
+        <div class="field-row">
+          <label for="chineseColor">颜色</label>
+          <input id="chineseColor" type="color" value="#4da3ff">
+        </div>
+        <div class="field-row">
+          <label for="chineseWeight">字重</label>
+          <div class="range-number">
+            <input id="chineseWeightRange" type="range" min="100" max="900" step="1" data-for="chineseWeight">
+            <input id="chineseWeight" type="number" min="100" max="900" step="1" value="700">
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="chineseFontFamily">字体</label>
+          <input id="chineseFontFamily" type="text" value="Inter" placeholder="Inter" list="fontOptions">
+        </div>
+        <div class="field-row">
+          <label for="chineseFontSize">大小</label>
+          <div class="range-number">
+            <input id="chineseFontSizeRange" type="range" min="8" max="96" step="1" data-for="chineseFontSize">
+            <div class="unit-input">
+              <input id="chineseFontSize" type="number" min="8" max="96" step="1" value="24">
+              <span>px</span>
+            </div>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="chineseBackgroundColor">背景</label>
+          <input id="chineseBackgroundColor" type="color" value="#000000">
+        </div>
+        <div class="field-row">
+          <label for="chineseBackgroundOpacity">透明度</label>
+          <div class="range-number">
+            <input id="chineseBackgroundOpacityRange" type="range" min="0" max="100" step="1" data-for="chineseBackgroundOpacity">
+            <div class="unit-input">
+              <input id="chineseBackgroundOpacity" type="number" min="0" max="100" step="1" value="0">
+              <span>%</span>
+            </div>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="chineseStrokeColor">描边</label>
+          <input id="chineseStrokeColor" type="color" value="#000000">
+        </div>
+        <div class="field-row">
+          <label for="chineseStrokeWidth">描边宽度</label>
+          <div class="range-number">
+            <input id="chineseStrokeWidthRange" type="range" min="0" max="12" step="1" data-for="chineseStrokeWidth">
+            <div class="unit-input">
+              <input id="chineseStrokeWidth" type="number" min="0" max="12" step="1" value="3">
+              <span>px</span>
+            </div>
+          </div>
+        </div>
+        <div class="field-row">
+          <label for="chineseStrokeOpacity">描边透明</label>
+          <div class="range-number">
+            <input id="chineseStrokeOpacityRange" type="range" min="0" max="100" step="1" data-for="chineseStrokeOpacity">
+            <div class="unit-input">
+              <input id="chineseStrokeOpacity" type="number" min="0" max="100" step="1" value="80">
+              <span>%</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="popup-actions">
+        <button id="resetButton" type="button">恢复默认</button>
+      </footer>
+    </main>
+
+    <datalist id="fontOptions">
+      <option value="Inter"></option>
+      <option value="Arial"></option>
+      <option value="Roboto"></option>
+      <option value="Noto Sans SC"></option>
+      <option value="Microsoft YaHei"></option>
+      <option value="PingFang SC"></option>
+      <option value="system-ui"></option>
+    </datalist>
+
+    <script src="plugin-config.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

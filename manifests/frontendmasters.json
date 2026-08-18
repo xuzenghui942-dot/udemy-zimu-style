@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Frontend Masters Bilingual Subtitle Styler",
+  "description": "Reorders and styles Immersive Translate bilingual subtitles on Frontend Masters.",
+  "version": "0.4.0",
+  "permissions": ["storage", "activeTab"],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "commands": {
+    "toggle-subtitle-styler": {
+      "suggested_key": {
+        "default": "Alt+Shift+F"
+      },
+      "description": "Toggle Frontend Masters subtitle styling"
+    }
+  },
+  "action": {
+    "default_title": "Frontend Masters Subtitle Styler",
+    "default_popup": "src/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://frontendmasters.com/*",
+        "https://*.frontendmasters.com/*"
+      ],
+      "css": ["src/content.css"],
+      "js": [
+        "src/plugin-config.js",
+        "src/frontendmasters-content.js",
+        "src/subtitle-styler-core.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}

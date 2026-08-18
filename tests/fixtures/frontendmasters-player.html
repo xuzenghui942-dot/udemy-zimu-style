@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Frontend Masters subtitle plugin fixture</title>
+  <link rel="stylesheet" href="/dist/frontendmasters-subtitle-styler/src/content.css">
+  <style>
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #181818;
+    }
+
+    .FMPlayer2 {
+      width: 900px;
+      height: 520px;
+      padding: 20px;
+    }
+
+    .FMPlayer2-VideoContainer,
+    .FMPlayer.video-js {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
+
+    video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: #050505;
+    }
+
+    #fem-caption-source {
+      position: absolute;
+      left: 50%;
+      bottom: 70px;
+      transform: translateX(-50%);
+      color: white;
+    }
+  </style>
+</head>
+<body id="fixture-page">
+  <div class="FMPlayer2">
+    <div class="FMPlayer2-VideoContainer">
+      <div class="FMPlayer video-js vjs-controls-enabled">
+        <video id="fem-video" aria-label="Frontend Masters course video"></video>
+        <div id="fem-caption-source" class="vjs-text-track-display immersive-translate-target-wrapper">
+          <span class="immersive-translate-target-inner">Frontend Masters original subtitle</span>
+          <span class="immersive-translate-target-translation-block-wrapper">Frontend Masters 中文字幕</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.chrome = {
+      storage: {
+        sync: {
+          get(defaults, callback) {
+            const settingsKey = Object.keys(defaults)[0];
+            callback({
+              [settingsKey]: {
+                ...defaults[settingsKey],
+                subtitleOrder: "en-first",
+                englishColor: "#ffffff",
+                chineseColor: "#4da3ff"
+              }
+            });
+          }
+        },
+        onChanged: {
+          addListener() {}
+        }
+      },
+      runtime: {
+        onMessage: {
+          addListener() {}
+        }
+      }
+    };
+  </script>
+  <script src="/dist/frontendmasters-subtitle-styler/src/plugin-config.js"></script>
+  <script src="/dist/frontendmasters-subtitle-styler/src/frontendmasters-content.js"></script>
+  <script src="/dist/frontendmasters-subtitle-styler/src/subtitle-styler-core.js"></script>
+</body>
+</html>

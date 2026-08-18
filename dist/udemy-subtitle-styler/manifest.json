@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Udemy Bilingual Subtitle Styler",
+  "description": "Reorders and styles Immersive Translate bilingual subtitles on Udemy, including player fullscreen.",
+  "version": "0.4.0",
+  "permissions": ["storage", "activeTab"],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "commands": {
+    "toggle-subtitle-styler": {
+      "suggested_key": {
+        "default": "Alt+Shift+U"
+      },
+      "description": "Toggle Udemy subtitle styling"
+    }
+  },
+  "action": {
+    "default_title": "Udemy Subtitle Styler",
+    "default_popup": "src/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://udemy.com/*",
+        "https://www.udemy.com/*",
+        "https://*.udemy.com/*"
+      ],
+      "css": ["src/content.css"],
+      "js": [
+        "src/plugin-config.js",
+        "src/udemy-content.js",
+        "src/subtitle-styler-core.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}
