@@ -8,6 +8,11 @@
     '[class*="video-viewer--container"]'
   ];
   const UDEMY_PLAYER_ROOT_SELECTOR = UDEMY_PLAYER_ROOT_SELECTORS.join(", ");
+  const UDEMY_CAPTION_CUE_SELECTOR = [
+    '[data-purpose="captions-cue-text"]',
+    '[class*="captions-display--captions-cue-text"]',
+    '[class*="captions-display-module--captions-cue-text"]'
+  ].join(", ");
   const UDEMY_CONTROL_RE = /(?:^|[-_\s])(control|controls|progress|scrub|seek|slider|timeline|volume|button|toolbar|settings|fullscreen|play|pause|rewind|forward)(?:$|[-_\s])/i;
   const UDEMY_SUBTITLE_RE = /(caption|captions|subtitle|subtitles|cue|text-track|immersive-translate|字幕)/i;
 
@@ -120,7 +125,25 @@
       return UDEMY_CONTROL_RE.test(label);
     }
 
-    function applySubtitlePipeline({ pipeline, videoRects }) {
+    function getCaptionCueElements(playerContext) {
+      const roots = Array.isArray(playerContext && playerContext.searchRoots)
+        ? playerContext.searchRoots
+        : [];
+      const cues = roots.flatMap((root) =>
+        Array.from(root && typeof root.querySelectorAll === "function"
+          ? root.querySelectorAll(UDEMY_CAPTION_CUE_SELECTOR)
+          : [])
+      );
+      return Array.from(new Set(cues));
+    }
+
+    function applySubtitlePipeline({ pipeline, playerContext, videoRects }) {
+      const captionCues = getCaptionCueElements(playerContext);
+      if (typeof pipeline.renderKnownBilingualTextElements === "function" &&
+        pipeline.renderKnownBilingualTextElements(captionCues, videoRects)) {
+        return;
+      }
+
       pipeline.runStandard(videoRects);
     }
 
