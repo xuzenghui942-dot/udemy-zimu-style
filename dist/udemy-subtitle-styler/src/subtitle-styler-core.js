@@ -2202,6 +2202,31 @@
     }
   }
 
+  function renderKnownBilingualTextElements(elements, videoRects) {
+    const renderCandidates = Array.from(new Set(elements || []))
+      .filter((element) =>
+        isVisibleOrKnownForcedSubtitleSource(element) &&
+        !isPlayerControlElement(element) &&
+        !hasInteractiveControlDescendant(element) &&
+        element.id !== GENERATED_OVERLAY_ID
+      )
+      .map((element) => {
+        const lines = getOwnedOverlayLines(element);
+        return {
+          element,
+          lines,
+          signature: hasBilingualLinePair(lines)
+            ? getGeneratedOverlayRenderSignature(lines)
+            : ""
+        };
+      });
+    const selected = chooseGeneratedOverlayRenderCandidate(renderCandidates, videoRects);
+
+    return selected
+      ? renderBilingualTextLines(selected.element, selected.lines, videoRects)
+      : false;
+  }
+
   function runStandardSubtitlePipeline(videoRects) {
     applyForcedMixedBilingualTextContainers(videoRects);
     if (!generatedOverlayActive) {
@@ -2226,6 +2251,7 @@
       applyImmersiveTranslateGroups,
       chooseDeepestSubtitleContainers,
       renderLineGroupToOverlay,
+      renderKnownBilingualTextElements,
       applyTextNodeGroup,
       applyLineCandidates,
       hasOwnedOverlay: () => generatedOverlayActive

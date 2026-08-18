@@ -23,6 +23,7 @@
 - 使用独立的 `udemySubtitleSettings` 保存 Udemy 设置。
 - 只扫描当前 Udemy 播放器树，不会抓取课程目录或 transcript。
 - 普通播放时 overlay 挂在 Udemy 播放器内；播放器容器进入全屏后，同一个 overlay 移入全屏元素树，退出后再移回播放器。
+- 小窗口和 Udemy 展开视图会优先识别播放器的明确字幕 cue，不受 `no-sidebar` 等响应式布局类名影响。
 - 只隐藏当前被 overlay 接管的视频原生 cue；禁用插件或无法安全渲染时恢复原字幕。
 
 ## 源码边界
@@ -47,7 +48,7 @@ npm test
 npm run verify
 ```
 
-测试覆盖：两个插件包隔离、Manifest host 范围、Udemy 播放器上下文、全屏挂载、中文上下顺序、overlay 复用、全部字幕样式字段、禁用恢复和既有安全约束。
+测试覆盖：两个插件包隔离、Manifest host 范围、Udemy 播放器上下文、小窗口展开视图、全屏挂载、中文上下顺序、overlay 复用、全部字幕样式字段、禁用恢复和既有安全约束。
 
 ## 安装
 

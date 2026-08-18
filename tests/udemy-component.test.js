@@ -166,6 +166,69 @@ playerRoot.children.push(video);
 
 {
   const component = createUdemyComponent();
+  const captionCue = { textContent: "English subtitle 中文字幕" };
+  const queriedSelectors = [];
+  const playerContext = {
+    searchRoots: [{
+      querySelectorAll(selector) {
+        queriedSelectors.push(selector);
+        return [captionCue];
+      }
+    }]
+  };
+  const calls = [];
+
+  component.applySubtitlePipeline({
+    playerContext,
+    videoRects: [{ width: 1000, height: 640 }],
+    pipeline: {
+      renderKnownBilingualTextElements(elements) {
+        calls.push(["known", elements]);
+        return true;
+      },
+      runStandard() {
+        calls.push(["standard"]);
+      }
+    }
+  });
+
+  assert(
+    queriedSelectors.some((selector) => selector.includes('[data-purpose="captions-cue-text"]')),
+    "Udemy must target its explicit caption cue in compact expanded layouts"
+  );
+  assert.deepStrictEqual(calls, [["known", [captionCue]]]);
+}
+
+{
+  const component = createUdemyComponent();
+  const videoRects = [{ width: 800, height: 450 }];
+  const calls = [];
+
+  component.applySubtitlePipeline({
+    playerContext: {
+      searchRoots: [{ querySelectorAll() { return []; } }]
+    },
+    videoRects,
+    pipeline: {
+      renderKnownBilingualTextElements() {
+        calls.push("known");
+        return false;
+      },
+      runStandard(receivedRects) {
+        calls.push(["standard", receivedRects]);
+      }
+    }
+  });
+
+  assert.deepStrictEqual(
+    calls,
+    ["known", ["standard", videoRects]],
+    "Udemy must preserve the existing generic subtitle pipeline when no explicit cue is renderable"
+  );
+}
+
+{
+  const component = createUdemyComponent();
   const documentEvents = [];
   const windowEvents = [];
   const fakeDocument = {

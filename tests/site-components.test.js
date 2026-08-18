@@ -65,6 +65,12 @@ assert(
   "Udemy component must move the subtitle overlay into the fullscreen player tree and refresh on fullscreen changes"
 );
 assert(
+  udemyComponent.includes('[data-purpose="captions-cue-text"]') &&
+    udemyComponent.includes("renderKnownBilingualTextElements") &&
+    core.includes("renderKnownBilingualTextElements"),
+  "Udemy must prioritize its explicit caption cue before the generic area exclusions"
+);
+assert(
   core.includes("siteComponent.getOverlayMountTarget") &&
     core.includes("siteComponent.getVideoElements") &&
     core.includes("siteComponent.getPlayerContext") &&
